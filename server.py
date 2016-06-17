@@ -15,11 +15,19 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
     # GET Method
     def do_GET(self):
-        if self.path == '/top':
+        if self.path == '/':
+            # prepend the filename with current filepath
+            path = os.getcwd() + '/index.html'
+            with open(path) as indexHtml:
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html')
+                self.end_headers()
+                self.wfile.write(indexHtml.read().encode())
+        else:
             self._writeheaders()
             while True:
                 f = tempfile.TemporaryFile()
-                p = subprocess.Popen(['top'], stdout=f)
+                p = subprocess.Popen(['top', '-b', '-n', '1'], stdout=f)
                 time.sleep(2)
                 p.terminate()
                 p.wait()
@@ -30,15 +38,6 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                 f.close()
                 self.wfile.write(
                     'id: 1\ndata: {}\ndata:\n\n'.format(quote(chunk)))
-        else:
-            # prepend the filename with current filepath
-            path = os.getcwd() + '/index.html'
-            with open(path) as indexHtml:
-                self.send_response(200)
-                self.send_header('Content-Type', 'text/html')
-                self.end_headers()
-                self.wfile.write(indexHtml.read().encode())
-
 
 if __name__ == "__main__":
     httpd = HTTPServer(('', 8000), HTTPRequestHandler)
