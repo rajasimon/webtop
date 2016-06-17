@@ -3,8 +3,7 @@
 Why:
 ====
 
-	Just experiment project to get the top command output and display that into
-	web browser.
+	Just experiment project to get the top command output and display that into web browser.
 
 Used:
 =====

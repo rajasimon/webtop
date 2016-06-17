@@ -1,5 +1,6 @@
 import os
 import time
+import argparse
 import tempfile
 import subprocess
 from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
@@ -40,8 +41,16 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                     'id: 1\ndata: {}\ndata:\n\n'.format(quote(chunk)))
 
 if __name__ == "__main__":
-    httpd = HTTPServer(('', 8000), HTTPRequestHandler)
-    print "Listening at port", 8000
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', type=int, help="port to be run")
+    args = parser.parse_args()
+    port = args.port
+    if port:
+        httpd = HTTPServer(('', port), HTTPRequestHandler)
+        print "Listening at port", port
+    else:
+        httpd = HTTPServer(('', 8000), HTTPRequestHandler)
+        print "Listening at port", 800
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
