@@ -1,16 +1,10 @@
 <div id="content"></div>
 <script type="text/javascript">
-	function encode_utf8(s) {
-  return unescape(encodeURIComponent(s));
-}
-
-	function decode_utf8(s) {
-	  return decodeURIComponent(escape(s));
-	}
 	if(typeof(EventSource) !== "undefined") {
 	    var source = new EventSource("/top");
 	    source.onmessage = function(event) {
-      	document.getElementById("content").innerHTML = encode_utf8(event.data);
+	    	console.log(event);
+      	document.getElementById("content").innerHTML = event.data;
 	    };
 	} else {
 	  document.getElementById("content").innerHTML = "Sorry, your browser does not support server-sent events...";

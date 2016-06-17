@@ -2,7 +2,8 @@ import os
 import time
 import tempfile
 import subprocess
-from http.server import HTTPServer, BaseHTTPRequestHandler
+# from http.server import HTTPServer, BaseHTTPRequestHandler
+from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
@@ -31,9 +32,10 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                 f.close()
 
                 time.sleep(2)
-                self.wfile.write(bytes(chunk, 'utf-8'))
+                # self.wfile.write(bytes(chunk, 'utf-8'))
                 # self.wfile.write(
-                #     'id: 1\ndata: {0}\ndata:\n\n'.format(chunk.decode()))
+                #     'id: 1\ndata: {}\ndata:\n\n'.format(chunk))
+                self.wfile.write('data: {}'.format(chunk))
         else:
             # prepend the filename with current filepath
             path = os.getcwd() + '/index.html'
