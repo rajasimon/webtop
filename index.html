@@ -1,10 +1,10 @@
-<div id="content"></div>
+<div id="content" style="white-space: pre-wrap"></div>
 <script type="text/javascript">
 	if(typeof(EventSource) !== "undefined") {
 	    var source = new EventSource("/top");
 	    source.onmessage = function(event) {
-	    	console.log(event);
-      	document.getElementById("content").innerHTML = event.data;
+	    	console.log(unescape(event.data));
+      	document.getElementById("content").innerHTML = unescape(event.data);
 	    };
 	} else {
 	  document.getElementById("content").innerHTML = "Sorry, your browser does not support server-sent events...";

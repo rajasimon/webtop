@@ -25,9 +25,11 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                 p.wait()
                 f.seek(0)
                 chunk = f.read()
+                # test started
+                from urllib import quote
                 f.close()
                 self.wfile.write(
-                    'id: 1\ndata: {}\ndata:\n\n'.format(chunk))
+                    'id: 1\ndata: {}\ndata:\n\n'.format(quote(chunk)))
         else:
             # prepend the filename with current filepath
             path = os.getcwd() + '/index.html'
@@ -40,7 +42,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     httpd = HTTPServer(('', 8000), HTTPRequestHandler)
-    print("Listening at port", 8000)
+    print "Listening at port", 8000
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
