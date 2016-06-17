@@ -2,7 +2,6 @@ import os
 import time
 import tempfile
 import subprocess
-# from http.server import HTTPServer, BaseHTTPRequestHandler
 from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
 
@@ -17,10 +16,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
     # GET Method
     def do_GET(self):
         if self.path == '/top':
-            self.send_response(200)
-            self.send_header('Connection', 'keep-alive')
-            self.send_header('Content-Type', 'text/event-stream')
-            self.end_headers()
+            self._writeheaders()
             while True:
                 f = tempfile.TemporaryFile()
                 p = subprocess.Popen(['top'], stdout=f)
@@ -30,12 +26,8 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                 f.seek(0)
                 chunk = f.read()
                 f.close()
-
-                time.sleep(2)
-                # self.wfile.write(bytes(chunk, 'utf-8'))
-                # self.wfile.write(
-                #     'id: 1\ndata: {}\ndata:\n\n'.format(chunk))
-                self.wfile.write('data: {}'.format(chunk))
+                self.wfile.write(
+                    'id: 1\ndata: {}\ndata:\n\n'.format(chunk))
         else:
             # prepend the filename with current filepath
             path = os.getcwd() + '/index.html'
