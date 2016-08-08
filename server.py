@@ -50,7 +50,7 @@ if __name__ == "__main__":
         print "Listening at port", port
     else:
         httpd = HTTPServer(('', 8000), HTTPRequestHandler)
-        print "Listening at port", 800
+        print "Listening at port", 8000
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
