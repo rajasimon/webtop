@@ -1,18 +1,18 @@
 <script type="text/javascript">
-	if(typeof(EventSource) !== "undefined") {
+  if(typeof(EventSource) !== "undefined") {
     var source = new EventSource("/top");
     source.onmessage = function(event) {
-    	// check pre alreay exist then remove it
-			if (document.contains(document.querySelector("pre"))) {
-			            document.querySelector("pre").remove();
-			}
-			// create the pre tag and append the server repsonse
-	  	var pre = document.createElement("pre");
-	  	pre.textContent = document.innerHTML = unescape(event.data);
-	  	document.body.appendChild(pre);
+      // check pre alreay exist then remove it
+      if (document.contains(document.querySelector("pre"))) {
+        document.querySelector("pre").remove();
+      }
+      // create the pre tag and append the server repsonse
+      var pre = document.createElement("pre");
+      pre.textContent = document.innerHTML = unescape(event.data);
+      document.body.appendChild(pre);
     };
-	}	
-	else {
-	  document.getElementById("content").innerHTML = "Sorry, your browser does not support server-sent events...";
-	}
+  } 
+  else {
+    document.getElementById("content").innerHTML = "Sorry, your browser does not support server-sent events...";
+  }
 </script>

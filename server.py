@@ -42,18 +42,26 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--port', type=int, help="port to be run")
+    parser.add_argument(
+        '-b',
+        '--bind',
+        help="The host/address to bind to",
+        default="127.0.0.1"
+    )
+    parser.add_argument(
+        '-p',
+        '--port',
+        type=int,
+        help="Port number to listen on",
+        default=8000
+    )
     args = parser.parse_args()
     port = args.port
-    if port:
-        httpd = HTTPServer(('', port), HTTPRequestHandler)
-        print "Listening at port", port
-    else:
-        httpd = HTTPServer(('', 8000), HTTPRequestHandler)
-        print "Listening at port", 8000
+
+    httpd = HTTPServer(('', port), HTTPRequestHandler)
+    print("Listening at port", port)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        pass
-    httpd.server_close()
-    print("Server stopped")
+        httpd.server_close()
+        print("Server stopped")
