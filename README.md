@@ -11,4 +11,4 @@
 
 ###How to run:
 
-	python server.py -b 8001
+	python server.py -b 127.0.0.1 -p 8080
