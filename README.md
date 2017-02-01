@@ -1,14 +1,6 @@
 # webtop
+This is just the experiment project to get the top command output and display that into a web browser. I achieved that using python and some html, javascript code. The main part is `EventSource` constanly listen for the changes and display that in browser.
 
-###Why:
-
-	Just experiment project to get the top command output and display that into web browser.
-
-###Used:
-
-	* Python ( BaseHTTPServer, subprocess )
-	* EventSource ( for server sent Events )
-
-###How to run:
+### How to run:
 
 	python server.py -b 127.0.0.1 -p 8080
