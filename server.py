@@ -3,7 +3,10 @@ import time
 import argparse
 import tempfile
 import subprocess
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+try:
+    from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+except:
+    from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
@@ -28,17 +31,20 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             self._writeheaders()
             while True:
                 f = tempfile.TemporaryFile()
-                p = subprocess.Popen(['top', '-b', '-n', '1'], stdout=f)
+                p = subprocess.Popen(['top', '-n', '1'], stdout=f)
                 time.sleep(2)
                 p.terminate()
                 p.wait()
                 f.seek(0)
                 chunk = f.read()
                 # test started
-                from urllib import quote
+                try:
+                    from urllib import quote
+                except:
+                    from urllib.parse import quote
                 f.close()
-                self.wfile.write(
-                    'id: 1\ndata: {}\ndata:\n\n'.format(quote(chunk)))
+                string = 'id: 1\ndata: {}\ndata:\n\n'.format(quote(chunk))
+                self.wfile.write(bytes(string.encode()))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
